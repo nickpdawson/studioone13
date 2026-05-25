@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PaintingCard from '../components/PaintingCard.astro';
+import { getCollection } from 'astro:content';
+
+const paintings = (await getCollection('paintings'))
+  .filter((p) => p.data.medium === 'watercolor')
+  .sort((a, b) => {
+    const oa = a.data.order ?? 9999;
+    const ob = b.data.order ?? 9999;
+    if (oa !== ob) return oa - ob;
+    return (b.data.year ?? 0) - (a.data.year ?? 0);
+  });
+---
+
+<Base title="Watercolors · George W. Dawson">
+  <h1>Watercolors</h1>
+
+  {paintings.length === 0 && (
+    <p class="gallery-empty">
+      No watercolors posted yet.
+    </p>
+  )}
+
+  {paintings.length > 0 && (
+    <ul class="gallery">
+      {paintings.map((p) => (
+        <li>
+          <PaintingCard
+            href={`/paintings/${p.id}/`}
+            title={p.data.title}
+            image={p.data.image}
+            year={p.data.year}
+            dimensions={p.data.dimensions}
+          />
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

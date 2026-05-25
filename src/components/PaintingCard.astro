@@ -1,0 +1,20 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  image: string;
+  year?: number;
+  dimensions?: string;
+  medium?: string;
+}
+
+const { href, title, image, year, dimensions, medium } = Astro.props;
+
+const metaBits = [year, dimensions, medium].filter(Boolean);
+---
+
+<a href={href} class="painting-card">
+  <img src={image} alt={title} loading="lazy" />
+  <span class="title">{title}</span>
+  {metaBits.length > 0 && <span class="meta">{metaBits.join(' · ')}</span>}
+</a>

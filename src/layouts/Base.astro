@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'George W. Dawson — StudioOne13',
+  description = 'Oil and watercolor paintings by George W. Dawson, from StudioOne13 in Lynchburg, Virginia.',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="container">
+    <div class="shell">
+      <header class="site-header">
+        <h1 class="site-title"><a href="/">George W. Dawson</a></h1>
+        <p class="site-tagline">Oil and watercolor paintings.</p>
+        <Nav />
+      </header>
+      <main>
+        <slot />
+        <Footer />
+      </main>
+    </div>
+  </div>
+</body>
+</html>

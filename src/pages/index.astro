@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+// Featured = explicit flag, otherwise first oil if any, otherwise null.
+const all = await getCollection('paintings');
+const featured = all.find((p) => p.data.featured)
+  ?? all.filter((p) => p.data.medium === 'oil')[0]
+  ?? all[0]
+  ?? null;
+---
+
+<Base>
+  {featured && (
+    <div class="featured">
+      <a href={`/paintings/${featured.id}/`}>
+        <img src={featured.data.image} alt={featured.data.title} />
+      </a>
+      <p class="meta">
+        <em>{featured.data.title}</em>
+        {featured.data.year && ` · ${featured.data.year}`}
+        {featured.data.dimensions && ` · ${featured.data.dimensions}`}
+      </p>
+    </div>
+  )}
+
+  <p class="lead">
+    Welcome to this site displaying the art of George W. Dawson — from his workshop, <strong>StudioOne13</strong>, in Lynchburg, Virginia.
+  </p>
+
+  <p>
+    Oil and watercolor paintings, made over many years.
+  </p>
+
+  {!featured && (
+    <p class="gallery-empty">
+      First paintings are being added. Check back soon — or take a look at the <a href="/about">about</a> page in the meantime.
+    </p>
+  )}
+</Base>

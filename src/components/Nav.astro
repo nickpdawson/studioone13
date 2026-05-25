@@ -1,0 +1,26 @@
+---
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/oils', label: 'Oil paintings' },
+  { href: '/watercolors', label: 'Watercolors' },
+  { href: '/studio', label: 'The studio' },
+  { href: '/shows', label: 'Upcoming shows' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<nav class="primary" aria-label="Primary">
+  <ul>
+    {items.map((item) => {
+      const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+      return (
+        <li>
+          <a href={item.href} class={isActive ? 'active' : undefined}>{item.label}</a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>

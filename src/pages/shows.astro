@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const today = new Date();
+const shows = (await getCollection('shows'))
+  .filter((s) => {
+    const end = s.data.end_date ?? s.data.start_date;
+    return end >= today;
+  })
+  .sort((a, b) => a.data.start_date.valueOf() - b.data.start_date.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base title="Upcoming shows · George W. Dawson">
+  <h1>Upcoming shows</h1>
+
+  {shows.length === 0 && (
+    <p class="gallery-empty">
+      No upcoming shows posted right now. Check back, or get in touch via the <a href="/contact">contact</a> page.
+    </p>
+  )}
+
+  {shows.length > 0 && (
+    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:2rem;">
+      {shows.map((show) => (
+        <li>
+          <h2 style="margin-top:0">
+            {show.data.link ? <a href={show.data.link}>{show.data.title}</a> : show.data.title}
+          </h2>
+          <p class="meta" style="font-style:italic; color:var(--muted); margin:0">
+            {show.data.venue}
+            {show.data.location && ` · ${show.data.location}`}
+          </p>
+          <p style="margin-top:0.5rem">
+            {fmt(show.data.start_date)}
+            {show.data.end_date && ` – ${fmt(show.data.end_date)}`}
+          </p>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
