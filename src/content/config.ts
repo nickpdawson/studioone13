@@ -15,10 +15,12 @@ const paintings = defineCollection({
       'acrylic',
       'mixed-media',
     ]),
-    year: z.number().int().min(1900).max(2100).optional(),
-    dimensions: z.string().optional(),
+    // .nullish() = accepts null OR undefined — Sveltia writes empty
+    // optional fields as `null` in YAML, which plain .optional() rejects.
+    year: z.number().int().min(1900).max(2100).nullish(),
+    dimensions: z.string().nullish(),
     image: z.string(),
-    order: z.number().int().optional(),
+    order: z.number().int().nullish(),
     sold: z.boolean().default(false),
     featured: z.boolean().default(false),
   }),
@@ -29,10 +31,10 @@ const shows = defineCollection({
   schema: z.object({
     title: z.string(),
     venue: z.string(),
-    location: z.string().optional(),
+    location: z.string().nullish(),
     start_date: z.coerce.date(),
-    end_date: z.coerce.date().optional(),
-    link: z.string().url().optional(),
+    end_date: z.coerce.date().nullish(),
+    link: z.string().url().nullish(),
   }),
 });
 
@@ -49,8 +51,8 @@ const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z.object({
     title: z.string(),
-    lead: z.string().optional(),
-    email: z.string().optional(),
+    lead: z.string().nullish(),
+    email: z.string().nullish(),
   }),
 });
 
