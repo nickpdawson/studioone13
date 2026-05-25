@@ -1,15 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry, render } from 'astro:content';
+
+const page = await getEntry('pages', 'contact');
+if (!page) throw new Error('Missing src/content/pages/contact.md');
+const { Content } = await render(page);
 ---
 
-<Base title="Contact · George W. Dawson">
-  <h1>Contact</h1>
-
-  <p class="lead">
-    For purchase inquiries, commissions, studio visits, or just to say hello.
-  </p>
-
-  <p>
-    <em>Contact details coming soon — George will add an email address and any other ways he'd like to be reached.</em>
-  </p>
+<Base title={`${page.data.title} · George W. Dawson`}>
+  <h1>{page.data.title}</h1>
+  {page.data.lead && <p class="lead">{page.data.lead}</p>}
+  {page.data.email && (
+    <p>
+      <a href={`mailto:${page.data.email}`}>{page.data.email}</a>
+    </p>
+  )}
+  <Content />
 </Base>

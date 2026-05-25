@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import PaintingCard from '../components/PaintingCard.astro';
+import { getCollection } from 'astro:content';
+import { MEDIUMS, mediumLabel } from '../lib/mediums';
+
+const all = (await getCollection('paintings')).sort((a, b) => {
+  const oa = a.data.order ?? 9999;
+  const ob = b.data.order ?? 9999;
+  if (oa !== ob) return oa - ob;
+  return (b.data.year ?? 0) - (a.data.year ?? 0);
+});
+
+// Group by medium, preserving the order defined in lib/mediums.ts.
+const grouped = MEDIUMS
+  .map((m) => ({
+    medium: m,
+    items: all.filter((p) => p.data.medium === m.value),
+  }))
+  .filter((g) => g.items.length > 0);
+---
+
+<Base title="Work · George W. Dawson">
+  <h1>Work</h1>
+
+  {all.length === 0 && (
+    <p class="gallery-empty">No paintings posted yet.</p>
+  )}
+
+  {grouped.map((group) => (
+    <section style="margin-bottom: 4rem;">
+      <h2 style="font-size:1.1rem; font-weight:500; font-style:italic; color:var(--muted); letter-spacing:0.04em; text-transform:uppercase; margin-bottom:1.5rem; border-bottom:1px solid var(--hair); padding-bottom:0.6rem;">
+        {group.medium.plural}
+      </h2>
+      <ul class="gallery">
+        {group.items.map((p) => (
+          <li>
+            <PaintingCard
+              href={`/paintings/${p.id}/`}
+              title={p.data.title}
+              image={p.data.image}
+              year={p.data.year}
+              dimensions={p.data.dimensions}
+              medium={mediumLabel(p.data.medium)}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>

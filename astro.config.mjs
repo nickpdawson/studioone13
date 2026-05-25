@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://one13studio.com',
+  site: 'https://georgedawsonart.com',
   output: 'static',
   build: {
     format: 'directory',

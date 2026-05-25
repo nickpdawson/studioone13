@@ -1,15 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry, render } from 'astro:content';
+
+const page = await getEntry('pages', 'studio');
+if (!page) throw new Error('Missing src/content/pages/studio.md');
+const { Content } = await render(page);
 ---
 
-<Base title="The studio · George W. Dawson">
-  <h1>The studio</h1>
-
-  <p class="lead">
-    StudioOne13, in Lynchburg, Virginia — where the paintings happen.
-  </p>
-
-  <p>
-    <em>Studio description coming soon. George will add a paragraph about the space, the practice, and the day-to-day.</em>
-  </p>
+<Base title={`${page.data.title} · George W. Dawson`}>
+  <h1>{page.data.title}</h1>
+  {page.data.lead && <p class="lead">{page.data.lead}</p>}
+  <Content />
 </Base>

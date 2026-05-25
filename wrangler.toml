@@ -1,15 +1,28 @@
 name = "studioone13"
 main = "src/worker.js"
 compatibility_date = "2026-05-17"
+workers_dev = true
+
+# Custom domains — DNS is on Cloudflare; wrangler will add the routes
+# and the right DNS records on deploy.
+routes = [
+  { pattern = "one13studio.com", custom_domain = true, zone_name = "one13studio.com" },
+  { pattern = "www.one13studio.com", custom_domain = true, zone_name = "one13studio.com" },
+  { pattern = "georgedawsonart.com", custom_domain = true, zone_name = "georgedawsonart.com" },
+  { pattern = "www.georgedawsonart.com", custom_domain = true, zone_name = "georgedawsonart.com" },
+]
 
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "404-page"
+# Run the Worker before serving any static asset, so the canonical
+# host redirect (and the /auth handlers) always get a chance to fire.
+run_worker_first = true
 
 # Public — safe to live in source.
 # Set after registering the GitHub OAuth App (see README under "CMS setup").
 [vars]
-GITHUB_CLIENT_ID = ""
+GITHUB_CLIENT_ID = "Ov23liYybGbx7NNHX7aI"
 
 # Secret — set via:  npx wrangler secret put GITHUB_CLIENT_SECRET

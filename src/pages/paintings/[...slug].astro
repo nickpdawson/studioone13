@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
+import { mediumLabel, mediumGallery, mediumGalleryLabel } from '../../lib/mediums';
 
 export async function getStaticPaths() {
   const paintings = await getCollection('paintings');
@@ -13,9 +14,9 @@ export async function getStaticPaths() {
 const { painting } = Astro.props;
 const { Content } = await render(painting);
 
-const galleryHref = painting.data.medium === 'watercolor' ? '/watercolors' : '/oils';
-const galleryLabel = painting.data.medium === 'watercolor' ? 'Watercolors' : 'Oil paintings';
-const mediumLabel = painting.data.medium === 'watercolor' ? 'Watercolor' : 'Oil';
+const galleryHref = mediumGallery(painting.data.medium);
+const galleryLabel = mediumGalleryLabel(painting.data.medium);
+const label = mediumLabel(painting.data.medium);
 ---
 
 <Base title={`${painting.data.title} · George W. Dawson`}>
@@ -27,7 +28,7 @@ const mediumLabel = painting.data.medium === 'watercolor' ? 'Watercolor' : 'Oil'
     <div>
       <h1 class="title">{painting.data.title}</h1>
       <p class="meta">
-        <span>{mediumLabel}</span>
+        <span>{label}</span>
         {painting.data.year && <span>{painting.data.year}</span>}
         {painting.data.dimensions && <span>{painting.data.dimensions}</span>}
         {painting.data.sold && <span>Sold</span>}

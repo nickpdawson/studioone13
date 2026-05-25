@@ -1,11 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry, render } from 'astro:content';
+
+const page = await getEntry('pages', 'about');
+if (!page) throw new Error('Missing src/content/pages/about.md');
+const { Content } = await render(page);
 ---
 
-<Base title="About George Dawson">
-  <h1>About George W. Dawson</h1>
-
-  <p>
-    <em>Bio coming soon. George will add a paragraph or two about his background, training, and the work.</em>
-  </p>
+<Base title={`${page.data.title} · George W. Dawson`}>
+  <h1>{page.data.title}</h1>
+  {page.data.lead && <p class="lead">{page.data.lead}</p>}
+  <Content />
 </Base>
