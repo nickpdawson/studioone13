@@ -19,6 +19,7 @@ const paintings = defineCollection({
     // optional fields as `null` in YAML, which plain .optional() rejects.
     year: z.number().int().min(1900).max(2100).nullish(),
     dimensions: z.string().nullish(),
+    price: z.string().nullish(),
     image: z.string(),
     order: z.number().int().nullish(),
     sold: z.boolean().default(false),
