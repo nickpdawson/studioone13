@@ -1,6 +1,6 @@
 ---
 title: Virginia Steam bakery
-medium: oil
+medium: watercolor
 image: /paintings/IMG_0123.JPG
 year: null
 dimensions: ''
