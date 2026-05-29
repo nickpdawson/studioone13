@@ -53,7 +53,7 @@ collections:
       - { name: image, label: Painting photo, widget: image, required: true }
       - { name: year, label: Year painted, widget: number, required: false, value_type: int, min: 1900, max: 2100 }
       - { name: dimensions, label: Dimensions, widget: string, required: false, hint: 'e.g. 12×16 inches' }
-      - { name: price, label: Price, widget: string, required: false, hint: 'e.g. $1,200 — or "Price on request". Hidden when the painting is marked Sold.' }
+      - { name: price, label: Price, widget: string, required: false, hint: 'e.g. $1,200 — or "Price on request". Shown alongside "Sold" if the painting is sold.' }
       - { name: featured, label: Featured on home page, widget: boolean, default: false, required: false }
       - { name: sold, label: Sold, widget: boolean, default: false, required: false }
       - { name: order, label: Order (lower = first), widget: number, required: false, value_type: int, hint: 'Optional. Leave blank to sort by year.' }

@@ -31,7 +31,7 @@ const label = mediumLabel(painting.data.medium);
         <span>{label}</span>
         {painting.data.year && <span>{painting.data.year}</span>}
         {painting.data.dimensions && <span>{painting.data.dimensions}</span>}
-        {painting.data.price && !painting.data.sold && <span>{painting.data.price}</span>}
+        {painting.data.price && <span>{painting.data.price}</span>}
         {painting.data.sold && <span>Sold</span>}
       </p>
 
