@@ -1,5 +1,5 @@
 ---
-title: In Balance2016
+title: In Balance
 medium: oil
 image: /paintings/Dawson Art FULL-106.jpg
 year: 2016
